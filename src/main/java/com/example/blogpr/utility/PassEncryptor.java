@@ -10,6 +10,7 @@ public class PassEncryptor {
 
         System.out.println("nikhil123: "+passwordEncoder.encode("nikhil123"));
         System.out.println("ramesh123: "+passwordEncoder.encode("ramesh123"));
+        System.out.println("john123: "+passwordEncoder.encode("john123"));
 
     }
 }

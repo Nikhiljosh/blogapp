@@ -46,4 +46,16 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId).orElseThrow(()-> new RuntimeException("Post not found with id: "+postId));
         return objectMapper.convertValue(post, PostDto.class);
     }
+
+    @Override
+    public PostDto updatePost(PostDto postDto, Integer postId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(()-> new RuntimeException("Post not found with id: "+postId));
+
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setPostTags(postDto.getPostTags());
+
+        return objectMapper.convertValue(postRepository.save(post), PostDto.class);
+    }
 }

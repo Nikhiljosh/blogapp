@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -15,4 +16,5 @@ public class PostDto {
     private String title;
     private String content;
     private List<CommentDto> commentList;
+    private Set<String> postTags;
 }

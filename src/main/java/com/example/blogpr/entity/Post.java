@@ -2,12 +2,16 @@ package com.example.blogpr.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -22,4 +26,18 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostImage> images = new ArrayList<>();
+
+    public void addImage(PostImage postImage){
+        this.images.add(postImage);
+        postImage.setPost(this);
+    }
+
+    @ElementCollection
+    @CollectionTable(name = "posttags",
+    joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
+    @Column(name="tag")
+    private Set<String> postTags;
 }

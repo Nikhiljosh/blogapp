@@ -1,6 +1,7 @@
 package com.example.blogpr.controller;
 
 import com.example.blogpr.dto.PostDto;
+import com.example.blogpr.dto.UserEmailDto;
 import com.example.blogpr.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,10 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId){
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.FOUND);
+    }
+
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostDto> updateEmail(@RequestBody PostDto postDto,@PathVariable Integer postId) {
+        return new ResponseEntity<>(postService.updatePost(postDto, postId), HttpStatus.ACCEPTED);
     }
 }
