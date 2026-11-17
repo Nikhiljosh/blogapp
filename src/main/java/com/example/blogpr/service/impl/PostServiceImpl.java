@@ -2,12 +2,15 @@ package com.example.blogpr.service.impl;
 
 import com.example.blogpr.dto.PostDto;
 import com.example.blogpr.entity.Post;
+import com.example.blogpr.entity.PostImage;
 import com.example.blogpr.repository.PostRepository;
 import com.example.blogpr.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -24,9 +27,27 @@ public class PostServiceImpl implements PostService {
     private ObjectMapper objectMapper;
 
     @Override
-    public PostDto createPost(PostDto postDto) {
+    public PostDto createPost(PostDto postDto, MultipartFile[] images) throws IOException {
 
-        Post post = objectMapper.convertValue(postDto, Post.class);
+        Post post = new Post();
+
+        post.setPostTags(postDto.getPostTags());
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+
+        if(images.length!=0){
+            for(MultipartFile image: images){
+
+                PostImage postImage = new PostImage();
+
+                postImage.setImageData(image.getBytes());
+                postImage.setImageName(image.getOriginalFilename());
+                postImage.setImageType(image.getContentType());
+
+                post.addImage(postImage);
+
+            }
+        }
         Post savedPost = postRepository.save(post);
         return objectMapper.convertValue(savedPost, PostDto.class);
     }
